@@ -1,2 +1,2 @@
 # Python_Biomass_Estimation
-Some python scripts I wrote for estimating above ground biomass in python
+A place for all my somewhat presentable forestry realted pythonn scripts
