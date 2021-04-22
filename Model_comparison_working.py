@@ -12,10 +12,10 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
 from sklearn import linear_model
-from sklearn import preprocessing
-from sklearn  import r2_score
 import numpy as np
 import matplotlib.pyplot as plt
+import random
+from sklearn.model_selection import cross_validate
 # csvs
 percent=pd.read_csv("/Users/lavran_pagano/Downloads/PythonB Project/UMBSStats_percentiles.csv")
 Biomass = pd.read_csv("/Users/lavran_pagano/Downloads/PythonB Project/UMBSStats.csv")
@@ -32,13 +32,19 @@ percent =percent[col_list]
 Training_Data = pd.merge(Biomass,percent, on= "Plot_ID")
 # inspect
 Training_Data.head()
+#remove plot ID
+Training_Data.drop(['Plot_ID'], axis=1)
 #Look for corelations
 corelations = Training_Data.corr()
-corelations.iloc[:1,1:len(corelations)]
+r = corelations.drop(['AGB'], axis=1)
+r = corelations.iloc[:,0]
+#seems like the mean canopy has the highest corelation with biomass 
 # split data into independent and dependent variables
-X,y = Training_Data.iloc[:,12:13],Training_Data.iloc[:,1]
+X,y = Training_Data.PCT50,Training_Data.AGB
+# reshape to two dimenisons
+X= np.array(X).reshape(-1,1)
 #Train test split
-setseed(50)
+random.seed(1)
 X_train, Xtest, ytrain, ytest =train_test_split(X,y, test_size =0.2)
 #linear model
 lm = linear_model.LinearRegression()# create a linear model
@@ -52,6 +58,14 @@ rf.fit(X_train, ytrain)#fit
 rf.score(Xtest,ytest)
 predictions = rf.predict(Xtest)
 plt.scatter(predictions,ytest)
+# lets see what happens when we do a 10 fold cross validation
+#linear model
+lm = linear_model.LinearRegression()# create a linear model
+cross_validate(lm,X,y,cv=10,scoring='r2')
+#Random Forest
+rf = RandomForestRegressor()
+cross_validate(rf,X,y,cv=10,scoring='r2')
+# There is something going on with our data and these models likly would not be effective in the real world
 
 
 
