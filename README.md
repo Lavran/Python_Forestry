@@ -1,2 +1,2 @@
 # Python_Biomass_Estimation
-A place for all my somewhat presentable forestry realted pythonn scripts
+A place for all my forestry realted python scripts.
