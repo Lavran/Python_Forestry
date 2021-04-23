@@ -64,3 +64,6 @@ axs[0].set_xlabel('Meters')
 axs[1].hist(TreePropslist.Crown_Diameter,edgecolor='black')
 axs[1].title.set_text('Crown Diameter')
 axs[1].set_xlabel('Meters')
+#get summary satsistics for all tree crowns in the chm
+TreePropslist[['Crown_Area','Crown_Diameter']].describe()
+
