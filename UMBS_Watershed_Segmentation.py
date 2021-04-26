@@ -47,8 +47,6 @@ def get_TreeProps(tree,chm_array, labels):
 #Get the properties of each tree
 tree_properties = regionprops(labels,chm_array)
 TreeProps_chm = np.array([get_TreeProps(tree, chm_array, labels) for tree in tree_properties])
-X = TreeProps_chm[:,1:]
-tree_ids = TreeProps_chm[:,0]
 #Rename coulmns
 TreePropslist = pd.DataFrame(TreeProps_chm)
 TreePropslist.columns = ['ID','Crown_Area','Crown_Diameter']
